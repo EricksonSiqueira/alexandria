@@ -1,6 +1,6 @@
 package com.example.alexandria.controllers;
 
-import com.example.alexandria.dto.BookDto;
+import com.example.alexandria.dto.BookDTO;
 import com.example.alexandria.dto.ResponseDTO;
 import com.example.alexandria.models.entities.Book;
 import com.example.alexandria.service.BookService;
@@ -31,14 +31,14 @@ public class BookController {
   }
 
   @PostMapping
-  public ResponseEntity<ResponseDTO<Book>> createBook(@RequestBody BookDto bookDto) {
+  public ResponseEntity<ResponseDTO<Book>> createBook(@RequestBody BookDTO bookDto) {
     Book newBook = bookService.insertBook(bookDto.toBook());
     ResponseDTO<Book> responseDTO = new ResponseDTO<>("Livro criado com sucesso!", newBook);
     return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
   }
 
   @PutMapping("/{bookId}")
-  public ResponseEntity<ResponseDTO<Book>> updateBook(@PathVariable Long bookId, @RequestBody BookDto bookDTO) {
+  public ResponseEntity<ResponseDTO<Book>> updateBook(@PathVariable Long bookId, @RequestBody BookDTO bookDTO) {
     Optional<Book> optionalBook = bookService.updateBook(bookId, bookDTO.toBook());
 
     if (optionalBook.isEmpty()) {
@@ -81,10 +81,10 @@ public class BookController {
   }
 
   @GetMapping()
-  public List<BookDto> getAllBooks() {
+  public List<BookDTO> getAllBooks() {
     List<Book> allBooks = bookService.getAllBooks();
     return allBooks.stream()
-        .map((book) -> new BookDto(book.getId(), book.getTitle(), book.getGenre()))
+        .map((book) -> new BookDTO(book.getId(), book.getTitle(), book.getGenre()))
         .collect(Collectors.toList());
   }
 }
